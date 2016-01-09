@@ -1,0 +1,33 @@
+
+Cities that rainfall is between 60-70:
+                    Akron 65.5
+                    Alton 69.6
+
+Cities that rainfall is between 70-80:
+                   Algona 77.9
+
+Cities that rainfall is between 80-90:
+                    Britt 80.1
+                  Carroll 84.6
+                   Ankeny 84.7
+                  Audubon 84.8
+                  Cascade 85.0
+                 Brighton 85.3
+                  Allison 85.4
+                  Buckeye 85.4
+                   AmesSE 86.2
+                    AmesW 86.5
+                 Bellevue 87.2
+                 Atlantic 88.3
+             Beaconsfield 89.5
+                  Anamosa 89.7
+
+Cities that rainfall is over 90:
+              BellePlaine 90.9
+                 Blockton 92.1
+                    Boone 92.2
+                  Bedford 92.3
+               Burlington 93.8
+                    Albia 95.6
+           BurlingtonKBUR 96.3
+               Bloomfield 96.5
