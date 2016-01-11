@@ -34,14 +34,11 @@ def buildDic(cleaned_element):
         dictionary[text] = html
     return dictionary
 
-
 def main():
     html = urllib.request.urlopen('http://cs.ualberta.ca/')
     page = html.readlines()
     useful_element = gethtml(page)
     cleaned_element = clean_element(useful_element)
     dictionary = buildDic(cleaned_element)
-    print(dictionary.keys())
-
 
 main()
