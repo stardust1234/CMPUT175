@@ -23,15 +23,51 @@ def getInfo(file):
             elif len(j) <= 4:       # change 'calling_duration from str to int
                  j = int(j)
             element.append(j)
-        element.insert(str(index))
+        if len(element) < 5:
+           element.insert(0,str(index))
+           element.append(0)
         index += 1
         return_List.append(element)
     return return_List
 
+def getkey(a):
+    return a[1]
+
+def summarizeInfoForNodes(calls, nodes, directed, edgeWeight):
+    for call in calls:
+        for node in nodes:
+            if directed == '1' and edgeWeight == '0':
+               if call[1] == node[1]:
+                  node[4] += call[3]
+            if directed == '1' and edgeWeight == '1':
+               if call[1] == node[1]:
+                  node[4] += 1
+            if directed == '0' and edgeWeight == '0':
+               if call[1] == node[1] or call[2] == node[1]:
+                  node[4] += call[3]
+            if directed == '0' and edgeWeight == '1':
+               if call[1] == node[1] or call[2] == node[1]:
+                  node[4] += 1
+    return nodes
+
 def main():
-    customerFile = open('customer.txt')
+    customerFile = open('customers.txt')
     nodes = getInfo(customerFile)
-    print(nodes)
+    sorted_nodes = sorted(nodes, key = getkey)
+    customerFile.close()
+
+    callsFile = open('calls.txt')
+    calls = getInfo(callsFile)
+    callsFile.close()
+
+    directed = input('Date for:\nDirected graph .....1\nUndirected graph ...0')
+    edgeWeight = input('Edge weight is:\nThe number of calls ...1\nThe time spent .........0')
+
+    summary_nodes = summarizeInfoForNodes(calls,sorted_nodes, directed, edgeWeight)
+
+    for node in summary_nodes:
+        print(node)
+
 
 if __name__ == '__main__':
     main()
