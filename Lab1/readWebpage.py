@@ -31,7 +31,7 @@ def buildDic(cleaned_element):
         i = i.split("\"")
         html = i[1]
         text = i[2][1:i[2].find('<')]
-        dictionary[text] = html
+        dictionary[html] = text
     return dictionary
 
 def main():
@@ -40,5 +40,7 @@ def main():
     useful_element = gethtml(page)
     cleaned_element = clean_element(useful_element)
     dictionary = buildDic(cleaned_element)
+    for element in dictionary.keys():
+        print(element, dictionary[element], sep = ",  ")
 
 main()

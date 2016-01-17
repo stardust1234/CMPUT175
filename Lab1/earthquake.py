@@ -18,7 +18,11 @@ def readFile(fileName):
 def getDates(dateList):
     dates = []
     for i in dateList:
-        dates.append(int(i[1].split('/')[2]))
+        date = []
+        date.append(int(i[1].split('/')[0]))
+        date.append(int(i[1].split('/')[1]))
+        date.append(int(i[1].split('/')[2]))
+        dates.append(date)
     return dates
 
 def getKey(a):
@@ -33,20 +37,23 @@ def sortByDate(readFile):
 def formatFile(sortedFile):
     summary = []
     for date in range(1,32):
-        dailyEarthquake = []
-        for i in sortedFile:
-            if date == i[2]:
-               if dailyEarthquake == []:
-                  dailyEarthquake.append(i[1])
-               dailyEarthquake.append(i[0])
-        if not dailyEarthquake==[]:
-           summary.append(dailyEarthquake)
+        for month in range(1,13):
+            for year in range(1900,2100):
+                dailyEarthquake = []
+                for i in sortedFile:
+                    if date == i[2][2] and month == i[2][1] and year == i[2][0]:
+                       if dailyEarthquake == []:
+                          dailyEarthquake.append(i[1])
+                       dailyEarthquake.append(i[0])
+                if not dailyEarthquake==[]:
+                   summary.append(dailyEarthquake)
     return summary
 
 def main():
     fileRead = open('earthquake.txt')
     read = readFile(fileRead)
     sortedFile = sortByDate(read)
+    #print(sortedFile)
     formatedFile = formatFile(sortedFile)
     print(formatedFile)
 

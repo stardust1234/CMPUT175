@@ -1,0 +1,10 @@
+1. User will be asked for the:
+	- Length
+	- Horsepower
+	- Color
+    The output will be the worth of the automobile
+2. worth = horsepower*length*color_facor*10
+3. Color_factor:
+	- red = 3
+	- yellow or blue= 2
+	- otherwise = 1

@@ -34,6 +34,11 @@ def getkey(a):
     return a[1]
 
 def summarizeInfoForNodes(calls, nodes, directed, edgeWeight):
+    dic = {}
+    for i in nodes:
+        for j in nodes:
+            if i[0] != j[0]:
+               dic[i[0]+ ', '+j[0]] = 0
     for call in calls:
         for node in nodes:
             if directed == '1' and edgeWeight == '0':
@@ -48,7 +53,31 @@ def summarizeInfoForNodes(calls, nodes, directed, edgeWeight):
             if directed == '0' and edgeWeight == '1':
                if call[1] == node[1] or call[2] == node[1]:
                   node[4] += 1
-    return nodes
+            for edge in nodes:
+                if directed == '1' and edgeWeight == '0':
+                   if call[1] == node[1] and call[2] == edge[1]:
+                      dic[node[0]+ ', ' +edge[0]] += call[3]
+                elif directed == '1' and edgeWeight =='1':
+                     if call[1] == node[1] and call[2] == edge[1]:
+                        dic[node[0]+ ', ' +edge[0]] += 1
+                elif directed == '0' and edgeWeight =='0':
+                     if (call[1] == node[1] and call[2] == edge[1]) or (call[2] == node[1] and call[1] == edge[1]):
+                        dic[node[0]+ ', ' +edge[0]] += call[3]
+                elif directed == '0' and edgeWeight =='1':
+                     if (call[1] == node[1] and call[2] == edge[1]) or (call[2] == node[1] and call[1] == edge[1]):
+                        dic[node[0]+ ', ' +edge[0]] += 1
+    return nodes, dic
+
+def printFile(nodes, edges):
+    file = open('callgraph.txt', 'w')
+    for node in nodes:
+        file.write(node[0]+', '+node[1]+', '+node[2]+', '+node[3] +', '+str(node[4]) +'\n')
+    file.write('\n')
+    for i in nodes:
+        for j in nodes:
+            if i[0] != j[0]:
+               file.write(i[0]+', '+j[0]+ ', ' + str(edges[i[0]+', '+j[0]]) + '\n')
+
 
 def main():
     customerFile = open('customers.txt')
@@ -61,12 +90,23 @@ def main():
     callsFile.close()
 
     directed = input('Date for:\nDirected graph .....1\nUndirected graph ...0')
+    while directed != '0' and directed != '1':
+       print('Please enter a number between 0 to 1')
+       directed = input('Date for:\nDirected graph .....1\nUndirected graph ...0')
+
     edgeWeight = input('Edge weight is:\nThe number of calls ...1\nThe time spent .........0')
+    while edgeWeight != '0' and edgeWeight != '1':
+       print('Please enter a number between 0 to 1')
+       edgeWeight = input('Edge weight is:\nThe number of calls ...1\nThe time spent .........0')
 
-    summary_nodes = summarizeInfoForNodes(calls,sorted_nodes, directed, edgeWeight)
+    summary_nodes = summarizeInfoForNodes(calls,sorted_nodes, directed, edgeWeight)[0]
+    summary_edges = summarizeInfoForNodes(calls,sorted_nodes, directed, edgeWeight)[1]
 
-    for node in summary_nodes:
-        print(node)
+    printFile(summary_nodes, summary_edges)
+    for i in sorted_nodes:
+        for j in sorted_nodes:
+            if i[0] != j[0]:
+               print(i[0]+', '+j[0]+ ', ' + str(summary_edges[i[0]+', '+j[0]]))
 
 
 if __name__ == '__main__':

@@ -41,7 +41,7 @@ def writeFile(fileName, sortedFile):
         elif i[1] > 90 and writed[3] == False:
              fileWrite.write('\nCities that rainfall is over 90:\n')
              writed[3] = True
-        i[1] = str(i[1]).center(5)
+        i[1] = str(i[1]).rjust(6)
         content = i[0] + i[1] + '\n'
         fileWrite.write(content)
 
