@@ -52,7 +52,10 @@ def summarizeInfo(calls, accounts):      # return a list, which each element has
             if call[1] == account[0]:
                account[3] += 1
                account[4] += call[3]
-               account[5] += int(call[3]/60)*call[4]
+               time = int(call[3]/60)
+               if call[3]%60 != 0:
+                   time += 1
+               account[5] += time*call[4]
     for account in accounts:
         account[0] = formatPhone(account[0])
         account[1] = account[1].ljust(30)
