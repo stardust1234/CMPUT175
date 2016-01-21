@@ -81,26 +81,27 @@ def printFile(nodes, edges):
 
 def main():
     customerFile = open('customers.txt')
-    nodes = getInfo(customerFile)
+    nodes = getInfo(customerFile)                       #[token, phoneNumber, Name, City, (numberOfCall, timeSpent)]
     sorted_nodes = sorted(nodes, key = getkey)
     customerFile.close()
 
     callsFile = open('calls.txt')
-    calls = getInfo(callsFile)
+    calls = getInfo(callsFile)                          #[timeStamp, callerNo, reciverNo, time, rate]
     callsFile.close()
 
     directed = input('Date for:\nDirected graph .....1\nUndirected graph ...0')
-    while directed != '0' and directed != '1':
+    while str(directed) != '0' and str(directed) != '1':
        print('Please enter a number between 0 to 1')
        directed = input('Date for:\nDirected graph .....1\nUndirected graph ...0')
 
     edgeWeight = input('Edge weight is:\nThe number of calls ...1\nThe time spent .........0')
-    while edgeWeight != '0' and edgeWeight != '1':
+    while str(edgeWeight) != '0' and str(edgeWeight) != '1':
        print('Please enter a number between 0 to 1')
        edgeWeight = input('Edge weight is:\nThe number of calls ...1\nThe time spent .........0')
-
-    summary_nodes = summarizeInfoForNodes(calls,sorted_nodes, directed, edgeWeight)[0]
-    summary_edges = summarizeInfoForNodes(calls,sorted_nodes, directed, edgeWeight)[1]
+       
+    summary = summarizeInfoForNodes(calls,sorted_nodes, directed, edgeWeight)
+    summary_nodes = summary[0]
+    summary_edges = summary[1]
 
     printFile(summary_nodes, summary_edges)
     for i in sorted_nodes:
