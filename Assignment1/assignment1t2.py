@@ -41,19 +41,14 @@ def summarizeInfoForNodes(calls, nodes, directed, edgeWeight):
                dic[i[0]+ ', '+j[0]] = 0
     for call in calls:
         for node in nodes:
-            if directed == '1' and edgeWeight == '0':
+            if edgeWeight == '0':
                if call[1] == node[1]:
                   node[4] += call[3]
             if directed == '1' and edgeWeight == '1':
                if call[1] == node[1]:
                   node[4] += 1
-            if directed == '0' and edgeWeight == '0':
-               if call[1] == node[1] or call[2] == node[1]:
-                  node[4] += call[3]
-            if directed == '0' and edgeWeight == '1':
-               if call[1] == node[1] or call[2] == node[1]:
-                  node[4] += 1
             for edge in nodes:
+                #
                 if directed == '1' and edgeWeight == '0':
                    if call[1] == node[1] and call[2] == edge[1]:
                       dic[node[0]+ ', ' +edge[0]] += call[3]
