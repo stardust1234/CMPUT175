@@ -1,0 +1,2 @@
+Excercise 1 (Stack.py)
+	1. 

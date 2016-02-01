@@ -1,0 +1,11 @@
+Excerise 1 (Stack.py):
+	- The class should be able to create a list as stack
+	- Users should be able to add elements to the stack by self.push(self, item) method
+	- Users will get the very top element of the stack by self.pop() method.
+		- The toppest element will be removed if this function is called.
+	- Users will get the very top element of the stack by self.pop() method.
+		- The toppest element will be kept when this function is called.
+	- Users will get the status of the stack by calling the is_empty() method.
+	- Users will get the length of the stack by calling the size() method.
+	
+	
