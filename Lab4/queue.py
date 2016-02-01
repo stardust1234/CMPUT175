@@ -17,9 +17,7 @@ class Queue:
     # Returns nothing if the queue is empty.
     def dequeue(self):
         try:
-            a = self.__items[0]
-            self.__items.remove(self.__items[0])
-            return a
+            return self.__items.pop(0)
         except: return None
 
     # Returns the front-most item in the queue, and DOES NOT change the queue.

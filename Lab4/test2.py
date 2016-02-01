@@ -1,4 +1,4 @@
-word_list = ["Hello", "World"]
+word_list = ((["Hello", "World"]))
 person_dict = {"name": "Bob", "age": 34}
 print(word_list[0])
 print(word_list[1])
