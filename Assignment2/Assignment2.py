@@ -1,3 +1,5 @@
+import random
+
 class TicTacToe:
     def __init__(self):
         # "board" is a list of 10 strings representing the board (ignore index 0)
@@ -54,17 +56,76 @@ class TicTacToe:
             if i.count(ch) == 3:
                 return True
         return False
-
 #-------------------------------------------------------------
-class DumbComputer(TicTacToe):
+class DumbComputer:
       def __init__(self, ch, myBoard):
           self.ch = ch
           self.myBoard = myBoard
-#-------------------------------------------------------------
+
       def assignMove_location(self):
           for i in range(1,10):
               if self.myBoard.cellIsEmpty(i):
                  return i
+#-------------------------------------------------------------
+class RandomComputer:
+    def __init__(self, ch, myBoard):
+        self.ch = ch
+        self.myBoard = myBoard
+
+    def assignMove_location(self):
+        cell = random.randint(1,9)
+        while not self.myBoard.cellIsEmpty(cell):
+            cell = random.randint(1,9)
+        return cell
+#-------------------------------------------------------------
+class SmartComputer:
+    def __init__(self, ch, myBoard):
+        self.ch = ch
+        self.myBoard = myBoard
+
+    def find_oppo_ch(self):
+        if self.ch == 'o':
+            return 'x'
+        else:
+            return 'o'
+
+    def find_win(self,ch):
+        ch = ch.center(3)
+        vertical1 = [1,4,7]
+        vertical2 = [2,5,8]
+        vertical3 = [3,6,9]
+        horizontal1 = [1,2,3]
+        horizontal2 = [4,5,6]
+        horizontal3 = [7,8,9]
+        diagnal1 = [1,5,9]
+        diagnal2 = [3,5,7]
+        lines = [vertical1,vertical2,vertical3,horizontal1,horizontal2,horizontal3,diagnal1,diagnal2]
+        for i in lines:
+            line = [self.myBoard.board[i[0]],self.myBoard.board[i[1]],self.myBoard.board[i[2]]]
+            if line.count(ch) == 2 and line.count('   ') == 1:
+                return i[line.index('   ')]
+        return ''
+    def check_corner(self):
+        for i in [1,3,7,9]:
+            if self.myBoard.cellIsEmpty(i):
+                return i
+        return ''
+
+    def assignMove_location(self):
+        oppo_ch = self.find_oppo_ch()
+        if self.find_win(self.ch) != '':
+            return self.find_win(self.ch)
+        if self.find_win(oppo_ch) != '':
+            return self.find_win(oppo_ch)
+        if self.myBoard.cellIsEmpty(5):
+            return 5
+        if self.check_corner() != '':
+            return self.check_corner()
+        cell = random.randint(1,9)
+        while not self.myBoard.cellIsEmpty(cell):
+            cell = random.randint(1,9)
+        return cell
+
 #-------------------------------------------------------------
 def printInfo():
     print('Welcome to Tic Tac Toe Series')
@@ -96,14 +157,17 @@ def main():
     myBoard.drawBoard()
     iteration = 0
     mode = makeChoiceOfMode()
-    ch_user1 = makeChoiceOfCh()
-    if ch_user1 =='x':
-       ch_user2 = 'o'
-    else: ch_user2 = 'x'
+    if mode in '234':
+        ch_user1 = makeChoiceOfCh()
+        if ch_user1 =='x':
+            ch_user2 = 'o'
+        else: ch_user2 = 'x'
     if mode == '2':
-       #print('xxx')
        AI = DumbComputer(ch_user2,myBoard)
-
+    elif mode == '3':
+        AI = RandomComputer(ch_user2, myBoard)
+    elif mode == '4':
+        AI = SmartComputer(ch_user2, myBoard)
     while myBoard.whoWon() == '' and mode not in '15':
           if iteration%2 == 0 and ch_user1 == 'x':
              ch = input('It is the turn for x . What is your move?')
@@ -118,18 +182,32 @@ def main():
                     print('Please enter a number between 1-9')
              myBoard.assignMove(int(ch), 'x')
              iteration += 1
+          if iteration%2 == 1 and ch_user1 == 'o':
+             ch = input('It is the turn for o . What is your move?')
+             try:
+                 if int(ch) > 9 or int(ch) < 1:
+                    print('Your input is out of bound')
+                    continue
+                 if not myBoard.cellIsEmpty(int(ch)):
+                    print('Please enter a number that is empty.')
+                    continue
+             except:
+                    print('Please enter a number between 1-9')
+             myBoard.assignMove(int(ch), 'o')
+             iteration += 1
           if iteration%2 == 1 and ch_user2 == 'o' and not myBoard.boardFull():
              myBoard.assignMove(AI.assignMove_location(), 'o')
+             iteration += 1
+          if iteration%2 == 0 and ch_user2 == 'x' and not myBoard.boardFull():
+             myBoard.assignMove(AI.assignMove_location(), 'x')
              iteration += 1
           myBoard.drawBoard()
           print('************************************************')
           if myBoard.whoWon() == '' and myBoard.boardFull():
              print('It\' a tie.')
              break
-    if myBoard.whoWon() != '':
-        print(myBoard.whoWon(), 'wins. Congrats!')
-'''
-    while myBoard.whoWon() == '':
+
+    while myBoard.whoWon() == '' and mode == '1':
         if iteration%2 == 0:
             ch = input('It is the turn for x . What is your move?')
             try:
@@ -161,8 +239,8 @@ def main():
         if myBoard.whoWon() == '' and myBoard.boardFull():
             print('It\' a tie.')
             break
+    if mode != '5':
+        if myBoard.whoWon() != '':
+            print(myBoard.whoWon(), 'wins. Congrats!')
 
-    if myBoard.whoWon() != '':
-        print(myBoard.whoWon(), 'wins. Congrats!')
-'''
 main()
