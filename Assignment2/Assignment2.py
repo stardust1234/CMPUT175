@@ -133,12 +133,13 @@ def printInfo():
     print('User against dumb computer.........2')
     print('User against random computer.......3')
     print('User against smart computer........4')
-    print('Quit...............................5')
+    print('Randomly selected game.............5')
+    print('Quit...............................6')
 #-------------------------------------------------------------
 def makeChoiceOfMode():
     mode = input('Enter your choice')
-    while mode not in '12345':
-          print('You need to make a valid choice between 1 to 5!!!')
+    while mode not in '123456':
+          print('You need to make a valid choice between 1 to 6!!!')
           mode = input('Enter your choice')
     return mode
 #-------------------------------------------------------------
@@ -149,6 +150,16 @@ def makeChoiceOfCh():
           mode = input('Do you want to play x or o?')
     return mode
 #-------------------------------------------------------------
+def determineAI(mode,ch_user2, myBoard):
+    if mode == '2':
+       AI = DumbComputer(ch_user2,myBoard)
+    elif mode == '3':
+        AI = RandomComputer(ch_user2, myBoard)
+    elif mode == '4':
+        AI = SmartComputer(ch_user2, myBoard)
+    elif mode == '5':
+         AI = determineAI(str(random.randint(2,4)), ch_user2, myBoard)
+    return AI
 
 #write some code here
 def main():
@@ -157,18 +168,14 @@ def main():
     myBoard.drawBoard()
     iteration = 0
     mode = makeChoiceOfMode()
-    if mode in '234':
+    if mode in '2345':
         ch_user1 = makeChoiceOfCh()
         if ch_user1 =='x':
             ch_user2 = 'o'
         else: ch_user2 = 'x'
-    if mode == '2':
-       AI = DumbComputer(ch_user2,myBoard)
-    elif mode == '3':
-        AI = RandomComputer(ch_user2, myBoard)
-    elif mode == '4':
-        AI = SmartComputer(ch_user2, myBoard)
-    while myBoard.whoWon() == '' and mode not in '15':
+    AI = determineAI(mode, ch_user2, myBoard)
+# P v AI mode
+    while myBoard.whoWon() == '' and mode not in '16':
           if iteration%2 == 0 and ch_user1 == 'x':
              ch = input('It is the turn for x . What is your move?')
              try:
@@ -195,6 +202,11 @@ def main():
                     print('Please enter a number between 1-9')
              myBoard.assignMove(int(ch), 'o')
              iteration += 1
+          myBoard.drawBoard()
+          print('************************************************')
+          if myBoard.whoWon() == '' and myBoard.boardFull():
+             print('It\' a tie.')
+             break
           if iteration%2 == 1 and ch_user2 == 'o' and not myBoard.boardFull():
              myBoard.assignMove(AI.assignMove_location(), 'o')
              iteration += 1
@@ -206,7 +218,7 @@ def main():
           if myBoard.whoWon() == '' and myBoard.boardFull():
              print('It\' a tie.')
              break
-
+# PvP mode
     while myBoard.whoWon() == '' and mode == '1':
         if iteration%2 == 0:
             ch = input('It is the turn for x . What is your move?')
@@ -239,7 +251,7 @@ def main():
         if myBoard.whoWon() == '' and myBoard.boardFull():
             print('It\' a tie.')
             break
-    if mode != '5':
+    if mode != '6':
         if myBoard.whoWon() != '':
             print(myBoard.whoWon(), 'wins. Congrats!')
 
