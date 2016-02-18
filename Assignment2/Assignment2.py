@@ -1,5 +1,15 @@
 import random
 
+class User:
+    def __init__(self, ch, name):
+        self.__ch__ = ch
+        self.__name__ = name
+    def getCh(self):
+        return self.__ch__
+    def getName(self):
+        return self.__name__
+#-------------------------------------------------------------
+
 class TicTacToe:
     def __init__(self):
         # "board" is a list of 10 strings representing the board (ignore index 0)
@@ -66,6 +76,9 @@ class DumbComputer:
           for i in range(1,10):
               if self.myBoard.cellIsEmpty(i):
                  return i
+
+      def __str__(self):
+        return 'Dumb Computer'
 #-------------------------------------------------------------
 class RandomComputer:
     def __init__(self, ch, myBoard):
@@ -77,6 +90,9 @@ class RandomComputer:
         while not self.myBoard.cellIsEmpty(cell):
             cell = random.randint(1,9)
         return cell
+
+    def __str__(self):
+        return 'Random Computer'
 #-------------------------------------------------------------
 class SmartComputer:
     def __init__(self, ch, myBoard):
@@ -126,6 +142,9 @@ class SmartComputer:
             cell = random.randint(1,9)
         return cell
 
+    def __str__(self):
+        return 'Smart Computer'
+
 #-------------------------------------------------------------
 def printInfo():
     print('Welcome to Tic Tac Toe Series')
@@ -143,13 +162,6 @@ def makeChoiceOfMode():
           mode = input('Enter your choice')
     return mode
 #-------------------------------------------------------------
-def makeChoiceOfCh():
-    mode = input('Do you want to play x or o?')
-    while mode not in 'xo':
-          print('You need to make a valid choice between x or o!!!')
-          mode = input('Do you want to play x or o?')
-    return mode
-#-------------------------------------------------------------
 def determineAI(mode,ch_user2, myBoard):
     if mode == '2':
        AI = DumbComputer(ch_user2,myBoard)
@@ -160,6 +172,18 @@ def determineAI(mode,ch_user2, myBoard):
     elif mode == '5':
          AI = determineAI(str(random.randint(2,4)), ch_user2, myBoard)
     return AI
+#-------------------------------------------------------------
+def enterUserInfo(ch = ' '):
+    if ch == ' ':
+        name = input('What is your name?')
+    else: name = input('What is your name? (For player 2)')
+    while ch not in 'xor':
+          ch = input(name + ', do you want to play x or o? Type r if you want me to chose for you.')
+    if ch == 'r':
+        ch = random.choice(['x','o'])
+    user = User(ch,name)
+    return user
+
 
 #write some code here
 def main():
@@ -168,15 +192,25 @@ def main():
     myBoard.drawBoard()
     iteration = 0
     mode = makeChoiceOfMode()
+    if mode== '1':
+        user1 = enterUserInfo()
+        if user1.getCh() == 'x':
+            user2 = enterUserInfo('o')
+            userForX = user1.getName()
+            userForO = user2.getName()
+        else:
+            user2 = enterUserInfo('x')
+            userForX = user2.getName()
+            userForO = user1.getName()
     if mode in '2345':
-        ch_user1 = makeChoiceOfCh()
-        if ch_user1 =='x':
+        user1 = enterUserInfo()
+        if user1.getCh() =='x':
             ch_user2 = 'o'
         else: ch_user2 = 'x'
-    AI = determineAI(mode, ch_user2, myBoard)
+        AI = determineAI(mode, ch_user2, myBoard)
 # P v AI mode
     while myBoard.whoWon() == '' and mode not in '16':
-          if iteration%2 == 0 and ch_user1 == 'x':
+          if iteration%2 == 0 and user1.getCh() == 'x':
              ch = input('It is the turn for x . What is your move?')
              try:
                  if int(ch) > 9 or int(ch) < 1:
@@ -189,7 +223,7 @@ def main():
                     print('Please enter a number between 1-9')
              myBoard.assignMove(int(ch), 'x')
              iteration += 1
-          if iteration%2 == 1 and ch_user1 == 'o':
+          if iteration%2 == 1 and user1.getCh() == 'o':
              ch = input('It is the turn for o . What is your move?')
              try:
                  if int(ch) > 9 or int(ch) < 1:
@@ -221,12 +255,13 @@ def main():
 # PvP mode
     while myBoard.whoWon() == '' and mode == '1':
         if iteration%2 == 0:
-            ch = input('It is the turn for x . What is your move?')
+            askingStr = 'It is the turn for '+userForX +',who chose x. What is your move?'
+            ch = input(askingStr)
             try:
                 if int(ch) > 9 or int(ch) < 1:
                     print('Your input is out of bound')
                     continue
-                if not myBoard.board[int(ch)].cellIsEmpty():
+                if not myBoard.cellIsEmpty(int(ch)):
                     print('Please enter a number that is empty.')
                     continue
             except:
@@ -234,12 +269,13 @@ def main():
             myBoard.assignMove(int(ch), 'x')
             iteration += 1
         else:
-            ch = input('It is the turn for o . What is your move?')
+            askingStr = 'It is the turn for '+userForO+',who chose o. What is your move?'
+            ch = input(askingStr)
             try:
                 if int(ch) > 9 or int(ch) < 1:
                     print('Your input is out of bound')
                     continue
-                if not myBoard.board[int(ch)].cellIsEmpty():
+                if not myBoard.cellIsEmpty(int(ch)):
                     print('Please enter a number that is empty.')
                     continue
             except:
@@ -251,8 +287,19 @@ def main():
         if myBoard.whoWon() == '' and myBoard.boardFull():
             print('It\' a tie.')
             break
-    if mode != '6':
+    # Determine who is the winner for P v AI mode
+    if mode in '2345':
         if myBoard.whoWon() != '':
-            print(myBoard.whoWon(), 'wins. Congrats!')
+            if ch_user2 == myBoard.whoWon():
+                print(AI, 'wins. Congrats!')
+            else:
+                print(user1.getName(), 'wins. Congrats!')
+    # Determine who is the winner for P v P mode
+    if mode == '1':
+        if myBoard.whoWon() != '':
+            if user1.getCh() == myBoard.whoWon():
+                print(user1.getName(), 'wins. Congrats!')
+            else:
+                print(user2.getName(), 'wins. Congrats!')
 
 main()
