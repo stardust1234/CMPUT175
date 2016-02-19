@@ -12,7 +12,7 @@ import bounded_queue
 def main():
     queue = bounded_queue.BoundedQueue(3)
     request =''
-    while request != 'Exit':
+    while request != 'exit':
         request = input('Add, Serve or Exit: ').lower()
         if request not in 'addserveexit':
             print('You need to enter either Add, Serve or Exit')

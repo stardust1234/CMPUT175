@@ -187,6 +187,7 @@ def enterUserInfo(ch = ' '):
 
 #write some code here
 def main():
+    user1 = enterUserInfo()
     while True:
         printInfo()
         myBoard = TicTacToe()
@@ -194,7 +195,6 @@ def main():
         iteration = 0
         mode = makeChoiceOfMode()
         if mode== '1':
-            user1 = enterUserInfo()
             if user1.getCh() == 'x':
                 user2 = enterUserInfo('o')
                 userForX = user1.getName()
@@ -204,7 +204,6 @@ def main():
                 userForX = user2.getName()
                 userForO = user1.getName()
         if mode in '2345':
-            user1 = enterUserInfo()
             if user1.getCh() =='x':
                 ch_user2 = 'o'
             else: ch_user2 = 'x'
