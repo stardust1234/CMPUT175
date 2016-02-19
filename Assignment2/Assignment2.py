@@ -187,123 +187,126 @@ def enterUserInfo(ch = ' '):
 
 #write some code here
 def main():
-    printInfo()
-    myBoard = TicTacToe()
-    myBoard.drawBoard()
-    iteration = 0
-    mode = makeChoiceOfMode()
-    if mode== '1':
-        user1 = enterUserInfo()
-        if user1.getCh() == 'x':
-            user2 = enterUserInfo('o')
-            userForX = user1.getName()
-            userForO = user2.getName()
-        else:
-            user2 = enterUserInfo('x')
-            userForX = user2.getName()
-            userForO = user1.getName()
-    if mode in '2345':
-        user1 = enterUserInfo()
-        if user1.getCh() =='x':
-            ch_user2 = 'o'
-        else: ch_user2 = 'x'
-        AI = determineAI(mode, ch_user2, myBoard)
-# P v AI mode
-    while myBoard.whoWon() == '' and mode not in '16':
-          if iteration%2 == 0 and user1.getCh() == 'x':
-             ch = input('It is the turn for x . What is your move?')
-             try:
-                 if int(ch) > 9 or int(ch) < 1:
-                    print('Your input is out of bound')
-                    continue
-                 if not myBoard.cellIsEmpty(int(ch)):
-                    print('Please enter a number that is empty.')
-                    continue
-             except:
-                    print('Please enter a number between 1-9')
-                    continue
-             myBoard.assignMove(int(ch), 'x')
-             iteration += 1
-          if iteration%2 == 1 and user1.getCh() == 'o':
-             ch = input('It is the turn for o . What is your move?')
-             try:
-                 if int(ch) > 9 or int(ch) < 1:
-                    print('Your input is out of bound')
-                    continue
-                 if not myBoard.cellIsEmpty(int(ch)):
-                    print('Please enter a number that is empty.')
-                    continue
-             except:
-                    print('Please enter a number between 1-9')
-                    continue
-             myBoard.assignMove(int(ch), 'o')
-             iteration += 1
-          myBoard.drawBoard()
-          print('************************************************')
-          if myBoard.whoWon() == '' and myBoard.boardFull():
-             print('It\' a tie.')
-             break
-          if iteration%2 == 1 and ch_user2 == 'o' and not myBoard.boardFull():
-             myBoard.assignMove(AI.assignMove_location(), 'o')
-             iteration += 1
-          if iteration%2 == 0 and ch_user2 == 'x' and not myBoard.boardFull():
-             myBoard.assignMove(AI.assignMove_location(), 'x')
-             iteration += 1
-          myBoard.drawBoard()
-          print('************************************************')
-          if myBoard.whoWon() == '' and myBoard.boardFull():
-             print('It\' a tie.')
-             break
-# PvP mode
-    while myBoard.whoWon() == '' and mode == '1':
-        if iteration%2 == 0:
-            askingStr = 'It is the turn for '+userForX +',who chose x. What is your move?'
-            ch = input(askingStr)
-            try:
-                if int(ch) > 9 or int(ch) < 1:
-                    print('Your input is out of bound')
-                    continue
-                if not myBoard.cellIsEmpty(int(ch)):
-                    print('Please enter a number that is empty.')
-                    continue
-            except:
-                print('Please enter a number between 1-9')
-                continue
-            myBoard.assignMove(int(ch), 'x')
-            iteration += 1
-        else:
-            askingStr = 'It is the turn for '+userForO+',who chose o. What is your move?'
-            ch = input(askingStr)
-            try:
-                if int(ch) > 9 or int(ch) < 1:
-                    print('Your input is out of bound')
-                    continue
-                if not myBoard.cellIsEmpty(int(ch)):
-                    print('Please enter a number that is empty.')
-                    continue
-            except:
-                print('Please enter a number between 1-9')
-                continue
-            myBoard.assignMove(int(ch), 'o')
-            iteration += 1
+    while True:
+        printInfo()
+        myBoard = TicTacToe()
         myBoard.drawBoard()
-        print('************************************************')
-        if myBoard.whoWon() == '' and myBoard.boardFull():
-            print('It\' a tie.')
+        iteration = 0
+        mode = makeChoiceOfMode()
+        if mode== '1':
+            user1 = enterUserInfo()
+            if user1.getCh() == 'x':
+                user2 = enterUserInfo('o')
+                userForX = user1.getName()
+                userForO = user2.getName()
+            else:
+                user2 = enterUserInfo('x')
+                userForX = user2.getName()
+                userForO = user1.getName()
+        if mode in '2345':
+            user1 = enterUserInfo()
+            if user1.getCh() =='x':
+                ch_user2 = 'o'
+            else: ch_user2 = 'x'
+            AI = determineAI(mode, ch_user2, myBoard)
+    # P v AI mode
+        while myBoard.whoWon() == '' and mode not in '16':
+              if iteration%2 == 0 and user1.getCh() == 'x':
+                 ch = input('It is the turn for x . What is your move?')
+                 try:
+                     if int(ch) > 9 or int(ch) < 1:
+                        print('Your input is out of bound')
+                        continue
+                     if not myBoard.cellIsEmpty(int(ch)):
+                        print('Please enter a number that is empty.')
+                        continue
+                 except:
+                        print('Please enter a number between 1-9')
+                        continue
+                 myBoard.assignMove(int(ch), 'x')
+                 iteration += 1
+              if iteration%2 == 1 and user1.getCh() == 'o':
+                 ch = input('It is the turn for o . What is your move?')
+                 try:
+                     if int(ch) > 9 or int(ch) < 1:
+                        print('Your input is out of bound')
+                        continue
+                     if not myBoard.cellIsEmpty(int(ch)):
+                        print('Please enter a number that is empty.')
+                        continue
+                 except:
+                        print('Please enter a number between 1-9')
+                        continue
+                 myBoard.assignMove(int(ch), 'o')
+                 iteration += 1
+              myBoard.drawBoard()
+              print('************************************************')
+              if myBoard.whoWon() == '' and myBoard.boardFull():
+                 print('It\' a tie.')
+                 break
+              if iteration%2 == 1 and ch_user2 == 'o' and not myBoard.boardFull():
+                 myBoard.assignMove(AI.assignMove_location(), 'o')
+                 iteration += 1
+              if iteration%2 == 0 and ch_user2 == 'x' and not myBoard.boardFull():
+                 myBoard.assignMove(AI.assignMove_location(), 'x')
+                 iteration += 1
+              myBoard.drawBoard()
+              print('************************************************')
+              if myBoard.whoWon() == '' and myBoard.boardFull():
+                 print('It\' a tie.')
+                 break
+    # PvP mode
+        while myBoard.whoWon() == '' and mode == '1':
+            if iteration%2 == 0:
+                askingStr = 'It is the turn for '+userForX +',who chose x. What is your move?'
+                ch = input(askingStr)
+                try:
+                    if int(ch) > 9 or int(ch) < 1:
+                        print('Your input is out of bound')
+                        continue
+                    if not myBoard.cellIsEmpty(int(ch)):
+                        print('Please enter a number that is empty.')
+                        continue
+                except:
+                    print('Please enter a number between 1-9')
+                    continue
+                myBoard.assignMove(int(ch), 'x')
+                iteration += 1
+            else:
+                askingStr = 'It is the turn for '+userForO+',who chose o. What is your move?'
+                ch = input(askingStr)
+                try:
+                    if int(ch) > 9 or int(ch) < 1:
+                        print('Your input is out of bound')
+                        continue
+                    if not myBoard.cellIsEmpty(int(ch)):
+                        print('Please enter a number that is empty.')
+                        continue
+                except:
+                    print('Please enter a number between 1-9')
+                    continue
+                myBoard.assignMove(int(ch), 'o')
+                iteration += 1
+            myBoard.drawBoard()
+            print('************************************************')
+            if myBoard.whoWon() == '' and myBoard.boardFull():
+                print('It\' a tie.')
+                break
+        # Determine who is the winner for P v AI mode
+        if mode in '2345':
+            if myBoard.whoWon() != '':
+                if ch_user2 == myBoard.whoWon():
+                    print(AI, 'wins. Congrats!')
+                else:
+                    print(user1.getName(), 'wins. Congrats!')
+        # Determine who is the winner for P v P mode
+        if mode == '1':
+            if myBoard.whoWon() != '':
+                if user1.getCh() == myBoard.whoWon():
+                    print(user1.getName(), 'wins. Congrats!')
+                else:
+                    print(user2.getName(), 'wins. Congrats!')
+        if mode == '6':
             break
-    # Determine who is the winner for P v AI mode
-    if mode in '2345':
-        if myBoard.whoWon() != '':
-            if ch_user2 == myBoard.whoWon():
-                print(AI, 'wins. Congrats!')
-            else:
-                print(user1.getName(), 'wins. Congrats!')
-    # Determine who is the winner for P v P mode
-    if mode == '1':
-        if myBoard.whoWon() != '':
-            if user1.getCh() == myBoard.whoWon():
-                print(user1.getName(), 'wins. Congrats!')
-            else:
-                print(user2.getName(), 'wins. Congrats!')
 
 main()
