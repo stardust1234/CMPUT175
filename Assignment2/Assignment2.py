@@ -221,6 +221,7 @@ def main():
                     continue
              except:
                     print('Please enter a number between 1-9')
+                    continue
              myBoard.assignMove(int(ch), 'x')
              iteration += 1
           if iteration%2 == 1 and user1.getCh() == 'o':
@@ -234,6 +235,7 @@ def main():
                     continue
              except:
                     print('Please enter a number between 1-9')
+                    continue
              myBoard.assignMove(int(ch), 'o')
              iteration += 1
           myBoard.drawBoard()
@@ -266,6 +268,7 @@ def main():
                     continue
             except:
                 print('Please enter a number between 1-9')
+                continue
             myBoard.assignMove(int(ch), 'x')
             iteration += 1
         else:
@@ -280,6 +283,7 @@ def main():
                     continue
             except:
                 print('Please enter a number between 1-9')
+                continue
             myBoard.assignMove(int(ch), 'o')
             iteration += 1
         myBoard.drawBoard()
