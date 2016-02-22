@@ -56,9 +56,9 @@ class CircularQueue:
         self.__item = []
 
     def __str__(self):
-        string = ''
-        for i in self.__item:
-            if i == None:
-                i = ''
-            string += (str(i)+' ')
-        return string
+        str_exp = "["
+        i=self.__head
+        for j in range(self.__count):
+            str_exp += str(self.__item[i]) + " "
+            i=(i+1) % self.__capacity
+        return str_exp + "]"
