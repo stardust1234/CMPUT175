@@ -156,10 +156,14 @@ def printInfo():
     print('Quit...............................6')
 #-------------------------------------------------------------
 def makeChoiceOfMode():
-    mode = input('Enter your choice')
-    while mode not in '123456':
-          print('You need to make a valid choice between 1 to 6!!!')
-          mode = input('Enter your choice')
+    try:
+        mode = input('Enter your choice')
+        if mode not in '123456' or mode == '':
+          raise Exception('Value Error: You need to make a valid choice between 1 to 6!!!')
+    except:
+        while mode not in '123456' or mode == '':
+            mode = input('Enter your choice')
+            print('Value Error: You need to make a valid choice between 1 to 6!!!')
     return mode
 #-------------------------------------------------------------
 def determineAI(mode,ch_user2, myBoard):
@@ -174,11 +178,27 @@ def determineAI(mode,ch_user2, myBoard):
     return AI
 #-------------------------------------------------------------
 def enterUserInfo(ch = ' '):
+    try:
+        if ch == ' ':
+            name = input('What is your name?')
+        else: name = input('What is your name? (For player 2)')
+        if name == '':
+            raise Exception('Value Error')
+    except:
+        while name == '':
+            print('Value Error: You need to enter a valid name.')
+            if ch == ' ':
+                name = input('What is your name?')
+            else: name = input('What is your name? (For player 2)')
     if ch == ' ':
-        name = input('What is your name?')
-    else: name = input('What is your name? (For player 2)')
-    while ch not in 'xor':
+        try:
           ch = input(name + ', do you want to play x or o? Type r if you want me to chose for you.')
+          if ch not in 'xor' or ch != '':
+            raise Exception('Value Error')
+        except:
+            while ch not in 'xor' or ch == '':
+                print('Value Error: you need to enter a valid value among x o or r')
+                ch = input(name + ', do you want to play x or o? Type r if you want me to chose for you.')
     if ch == 'r':
         ch = random.choice(['x','o'])
     user = User(ch,name)
@@ -211,8 +231,8 @@ def main():
     # P v AI mode
         while myBoard.whoWon() == '' and mode not in '16':
               if iteration%2 == 0 and user1.getCh() == 'x':
-                 ch = input('It is the turn for x . What is your move?')
                  try:
+                     ch = input('It is the turn for x. What is your move?')
                      if int(ch) > 9 or int(ch) < 1:
                         print('Your input is out of bound')
                         continue
@@ -225,8 +245,8 @@ def main():
                  myBoard.assignMove(int(ch), 'x')
                  iteration += 1
               if iteration%2 == 1 and user1.getCh() == 'o':
-                 ch = input('It is the turn for o . What is your move?')
                  try:
+                     ch = input('It is the turn for o. What is your move?')
                      if int(ch) > 9 or int(ch) < 1:
                         print('Your input is out of bound')
                         continue
@@ -257,9 +277,9 @@ def main():
     # PvP mode
         while myBoard.whoWon() == '' and mode == '1':
             if iteration%2 == 0:
-                askingStr = 'It is the turn for '+userForX +',who chose x. What is your move?'
-                ch = input(askingStr)
                 try:
+                    askingStr = 'It is the turn for '+userForX +',who chose x. What is your move?'
+                    ch = input(askingStr)
                     if int(ch) > 9 or int(ch) < 1:
                         print('Your input is out of bound')
                         continue
@@ -272,9 +292,9 @@ def main():
                 myBoard.assignMove(int(ch), 'x')
                 iteration += 1
             else:
-                askingStr = 'It is the turn for '+userForO+',who chose o. What is your move?'
-                ch = input(askingStr)
                 try:
+                    askingStr = 'It is the turn for '+userForO +',who chose o. What is your move?'
+                    ch = input(askingStr)
                     if int(ch) > 9 or int(ch) < 1:
                         print('Your input is out of bound')
                         continue
