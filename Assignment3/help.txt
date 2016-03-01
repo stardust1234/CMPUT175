@@ -1,0 +1,11 @@
+You have a total of 20 sonar devices and there are 3 treasure chests to find, randomly scattered in the ocean. 
+The game ends when you do not have sonar devices left or you found all three chests. To find a chest you need 
+to drop a sonar device at the exact x,y coordinates of the chest. In that case the sonar would indicate "X". 
+The sonar devices are twice as sensitive on the column axis than the rows. It can detect a chest 9 units away
+on both sides of the x axis and 5 units away on the y axis. If the sonar is dropped too far (more than 9 units 
+away on the x axis and 6 on the y axis) from a chest, the sonar would indicate "O", meaning nothing detected. 
+Again, the maximum range of the sonar device is 9 units on the x axis and 5 units on the y axis. If the sonar 
+is less than 10 units away from a chest on the x axis, the sonar would indicate the distance (1, 2, ..., 9). 
+Since the the sonar devices are twice as sensitive on the column axis than the rows, on the y axis (rows), if
+ the sonar device is closer than 6 units, closer on the y than half the x axis, and still in the range, the sonar
+ would indicate a for 1, b for 2, c for 3, d for 4 and e for 5 distance units.

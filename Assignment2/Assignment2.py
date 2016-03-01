@@ -193,7 +193,7 @@ def enterUserInfo(ch = ' '):
     if ch == ' ':
         try:
           ch = input(name + ', do you want to play x or o? Type r if you want me to chose for you.')
-          if ch not in 'xor' or ch != '':
+          if ch not in 'xor' or ch == '':
             raise Exception('Value Error')
         except:
             while ch not in 'xor' or ch == '':
